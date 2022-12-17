@@ -1,4 +1,4 @@
-# wireguard
+# TunSafe/Wireguard
 Wireguard install script
 
 This is a copy from Secure WireGuard server installer
