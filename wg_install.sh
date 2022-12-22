@@ -289,7 +289,7 @@ function newClient() {
 	echo "[Interface]
 BlockDNS = true
 PrivateKey = ${CLIENT_PRIV_KEY}
-Address = ${CLIENT_WG_IPV4}/32
+Address = ${CLIENT_WG_IPV4}/24
 DNS = ${CLIENT_DNS_1}
 
 [Peer]
