@@ -289,14 +289,14 @@ function newClient() {
 	echo "[Interface]
 BlockDNS = true
 PrivateKey = ${CLIENT_PRIV_KEY}
-Address = ${CLIENT_WG_IPV4}/24
+Address = ${CLIENT_WG_IPV4}/32
 DNS = ${CLIENT_DNS_1}
 
 [Peer]
 PublicKey = ${SERVER_PUB_KEY}
 PresharedKey = ${CLIENT_PRE_SHARED_KEY}
 Endpoint = ${ENDPOINT}
-AllowedIPs = 0.0.0.0/0" >>"${HOME_DIR}/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
+AllowedIPs = 0.0.0.0/0" >>"${HOME_DIR}/${CLIENT_NAME}.conf"
 
 	# Add the client as a peer to the server
 	echo -e "\n### Client ${CLIENT_NAME}
@@ -308,11 +308,15 @@ AllowedIPs = ${CLIENT_WG_IPV4}/32" >>"/etc/wireguard/${SERVER_WG_NIC}.conf"
 
 	wg syncconf "${SERVER_WG_NIC}" <(wg-quick strip "${SERVER_WG_NIC}")
 
-	echo -e "\nHere is your client config file as a QR Code:"
+	#echo -e "\nHere is your client config file as a QR Code:"
 
-	qrencode -t ansiutf8 -l L <"${HOME_DIR}/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
+	#qrencode -t ansiutf8 -l L <"${HOME_DIR}/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
 
-	echo "It is also available in ${HOME_DIR}/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
+	echo "It is also available in ${HOME_DIR}/${CLIENT_NAME}.conf"
+	
+	zip -e ${HOME_DIR}/${CLIENT_NAME}.zip ${HOME_DIR}/${CLIENT_NAME}.conf
+	
+	cp ${HOME_DIR}/${CLIENT_NAME}.zip /var/www/${CLIENT_NAME}.zip
 }
 
 function revokeClient() {
